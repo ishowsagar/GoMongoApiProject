@@ -1,0 +1,19 @@
+# As we have seen in go coffee api project, we had to first start container and
+# run db migrations n even create container inside base container for db, you know all those commands in make file
+# to fix that issue --> we use this docker-compose.yml file to run all those required commands in one go
+# @ this is the main reason of using this --> execute several commands which stores other commands in one place rather than one by one
+
+# version: "3" -- depreciated
+# always run => docker compose config for pre check if something wrong 
+#* alias name for executing commands goes after yml keywords
+services:
+  mongodb:
+    container_name: ${DB_CONTAINER_NAME}
+    image: "mongo:4.2.16-bionic"
+    environment:
+      - MONGO_INITDB_DATABASE=${MONGO_DB}
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_DB_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_DB_PASSWORD}
+    ports:
+      - "27017:27017"
+# @ Proper indentatin & nesting services n alias nestihng should be fine to cuz otherwise it'd fail to interpret
