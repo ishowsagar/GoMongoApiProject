@@ -23,15 +23,21 @@ func CreateRouter() http.Handler {
 
 	// @ Routes & their respective functions to serve response back to the client 
 	
-	// health check func for checking if server is running with no data, just void server run check❕❕ 
-	router.Get("/health",func(w http.ResponseWriter,r *http.Request) {
-		w.WriteHeader(http.StatusOK)
-		_,err := w.Write([]byte("Go server is running🧑‍💻⚡..."))
-		
-		if err != nil {
-			http.Error(w,"failed to boot Go Server🛑🛑",http.StatusBadRequest)
-		}
-	})
+// health check func for checking if server is running with no data, just void server run check❕❕ 
+router.Get("/health",HealthCheck)
+
+//@ nested routing with parent route paths
+router.Route("/api",func(r chi.Router) {
+	// nested routes under "/api" route path and use "r" as nested router
+	r.Get("/health",HealthCheck)
+	r.Get("/todos/all",GetAllTodos)
+	r.Get("/todos/{id}",GetTodoByID)
+	r.Post("/todos/create",CreateTodo)
+	r.Put("/todos/update/{id}",UpdateTodo)
+	r.Delete("/todos/delete/{id}",DeleteTodo)
+
+	// r.Get("/todos/all",)
+})
 
 	return router
 }

@@ -20,7 +20,7 @@ func ConnectToMongo() (*mongo.Client,error) {
 	username := os.Getenv("MONGO_DB_USERNAME") 
 	password := os.Getenv("MONGO_DB_PASSWORD") 
 	
-	// MongoDB connection string
+	//& MongoDB connection string -- as clientOptions - options configuration
 	clientOptions := options.Client().ApplyURI("mongodb://localhost:27017")
 	// Configuring credentials for mongoDB connection
 	clientOptions.SetAuth(options.Credential{
@@ -28,7 +28,7 @@ func ConnectToMongo() (*mongo.Client,error) {
 		Password: password,
 	})
 
-	// finally connecting to mongo
+	// ! connection to mongo with mongo.Connect func passing ctx,clientOptions
 	client,err := mongo.Connect(context.Background(),clientOptions)
 	
 	// if caught erro while connecting to the mongo db 
